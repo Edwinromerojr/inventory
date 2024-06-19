@@ -134,3 +134,5 @@ STATIC_ROOT = (BASE_DIR/"asert/")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'index'
