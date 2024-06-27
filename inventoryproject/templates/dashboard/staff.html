@@ -16,13 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for customer in customer %}
+                {% for worker in workers %}
                 <tr>
-                    <th scope="row"><a class="btn btn-info btn-sm"
-                            href="{% url 'dashboard-customer-detail' customer.id %}">View</a></th>
-                    <td>{{ customer.username }}</td>
-                    <td>{{ customer.profile.phone }}</td>
-                    <td>{{ customer.email }}</td>
+                    <th scope="row"><a class="btn btn-info btn-sm" href="{% url 'staff-detail' worker.id %}">View</a></th>
+                    <td>{{ worker.username }}</td>
+                    <td>{{ worker.profile.phone }}</td>
+                    <td>{{ worker.email }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

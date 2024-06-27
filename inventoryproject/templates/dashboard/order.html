@@ -13,15 +13,17 @@
                     <th scope="col">Category</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Odered by</th>
+                    <th scope="col">Date</th>
                 </tr>
             </thead>
             <tbody>
-                {% for order in order %}
+                {% for order in orders %}
                 <tr>
-                    <td>{{ order.name }}</td>
-                    <td>{{ order.name.category }}</td>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.product.category }}</td>
                     <td>{{ order.order_quantity }}</td>
-                    <td>{{ order.customer.username }}</td>
+                    <td>{{ order.staff }}</td>
+                    <td>{{ order.date }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
