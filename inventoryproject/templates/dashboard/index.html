@@ -1,6 +1,7 @@
 {% extends "components/base.html" %}
 {% block title %} Home Page {% endblock title %}
 
+
 {% block content %}
 {% if user.is_authenticated and user.is_staff and user.is_superuser %}
 {% include 'components/topside.html' %}
