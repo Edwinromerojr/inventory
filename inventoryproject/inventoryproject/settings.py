@@ -142,3 +142,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'index'
 
 LOGIN_URL = 'user-login'
+
+#SMTP Configuration / Simple mail transfer protocol
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'popo2727272727@gmail.com'
+EMAIL_HOST_PASSWORD = ''
