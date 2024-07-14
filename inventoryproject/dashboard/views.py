@@ -4,8 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+import csv
+from import_export.formats.base_formats import XLSX
+
 from .models import Product, Order
 from .forms import ProductForm, OrderForm
+from .resources import ProductResource
 
 # Create your views here.
 
@@ -61,19 +65,41 @@ def staff_detail(request, pk):
 def product(request):
     items = Product.objects.all()
     product_count = items.count()
-    # items = Product.objects.raw('SELECT * FROM dashboard_product')
-
     workers_count = User.objects.all().count()
     orders_count = Order.objects.all().count()
+
+    # Initialize the form variable
+    form = ProductForm()
+
     if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            product_name = form.cleaned_data.get('name')
-            messages.success(request, f'{product_name} has been added')
-            return redirect('product')
-    else:
-        form = ProductForm()
+        if 'upload' in request.POST:
+            product_resource = ProductResource()
+            new_products = request.FILES['file']
+            dataset = XLSX().create_dataset(new_products.read())
+            result = product_resource.import_data(dataset, dry_run=True)  # Dry run for validation
+
+            if not result.has_errors():
+                product_resource.import_data(dataset, dry_run=False)  # Actually import now
+                messages.success(request, 'Products imported successfully')
+            else:
+                messages.error(request, 'There was an error importing the products')
+
+        elif 'export' in request.POST:
+            product_resource = ProductResource()
+            dataset = product_resource.export()
+            xlsx_format = XLSX()
+            xlsx_data = xlsx_format.export_data(dataset)
+            response = HttpResponse(xlsx_data, content_type=xlsx_format.get_content_type())
+            response['Content-Disposition'] = 'attachment; filename="products.xlsx"'
+            return response
+
+        else:
+            form = ProductForm(request.POST)
+            if form.is_valid():
+                form.save()
+                product_name = form.cleaned_data.get('name')
+                messages.success(request, f'{product_name} has been added')
+                return redirect('product')
 
     context = {
         'items': items,

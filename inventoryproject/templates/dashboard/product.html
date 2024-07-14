@@ -17,11 +17,20 @@
             <div class="border bg-white p-3">
                 <h4>Add Products</h4>
                 <hr>
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <input class="btn btn-success btn-block mt-3" type="submit" value="Add Product">
-
+                </form>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="file">Import Products</label>
+                    <input type="file" name="file" class="form-control">
+                    <button type="submit" name="upload" class="btn btn-primary btn-block mt-3">Import</button>
+                </form>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" name="export" class="btn btn-secondary btn-block mt-3">Export to Excel</button>
                 </form>
             </div>
         </div>
@@ -51,6 +60,5 @@
             </table>
         </div>
     </div>
-
 </div>
 {% endblock %}
